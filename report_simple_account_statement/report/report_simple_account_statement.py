@@ -18,7 +18,7 @@ class ReportStatus(report_sxw.rml_parse):
               
     def get_result(self, form):
         invoice_obj = form['form']['period_id'][0]
-        filtro = [('type', '=', 'in_invoice'),('state', '=', 'open'),('period_id','=', form['form']['period_id'][0])]
+        filtro = [('type', '=', 'in_invoice'),('state', '=', 'open'),('period_id','=', form['form']['period_id'][0]),('number','=','COMPRA/2014/0007')]
         invoice_ids= self.pool.get('account.invoice').search(self.cr, self.uid,filtro,order="date_invoice")
         invoice_obj= self.pool.get('account.invoice').browse(self.cr, self.uid, invoice_ids )
         return invoice_obj

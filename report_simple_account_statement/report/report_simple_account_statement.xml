@@ -6,8 +6,9 @@
         	model="report.simple.account.statement.wizard" 
         	name="simple.account.statement" 
         	report_type="webkit" 
-        	string="Account Simple Statement Report" 
-        	/>
+        	string="Account Simple Statement Report"
+            
+            />
        	<record id="property_header_webkit_account_statement" model="ir.property">
             <field name="name">webkit_header</field>
             <field name="fields_id" ref="report_webkit.field_ir_act_report_xml_webkit_header"/>

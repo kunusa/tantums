@@ -21,7 +21,7 @@
     <body style="border:0; margin: 0;" onload="subst()">
         <table style="border-top: 1px solid black; width: 100%">
             <tr >
-                <td style="text-align:center;font-size:2;" width="45%">Generado con software libre en OpenERP y Webkit por http://www.tantums.com</td>
+                <td style="text-align:center;font-size:2;" width="35%">Generado con software libre en OpenERP y Webkit por http://www.tantums.com</td>
                 <td style="text-align:right;font-size:8;" width="55%">Page <span class="page"/></td><td style="text-align:left;font-size:12;">  of <span class="topage"/></td>
             </tr>
         </table>
@@ -82,12 +82,118 @@ font-size: 12;
 padding-right:3px;
 padding-left:3px;
 }
-.table
-{
-border-collapse:collapse;
+.table_standard {
+    margin:0px;padding:0px;
+    width:100%;
+    border:1px solid #ffffff;
+    
+    -moz-border-radius-bottomleft:0px;
+    -webkit-border-bottom-left-radius:0px;
+    border-bottom-left-radius:0px;
+    
+    -moz-border-radius-bottomright:0px;
+    -webkit-border-bottom-right-radius:0px;
+    border-bottom-right-radius:0px;
+    
+    -moz-border-radius-topright:0px;
+    -webkit-border-top-right-radius:0px;
+    border-top-right-radius:0px;
+    
+    -moz-border-radius-topleft:0px;
+    -webkit-border-top-left-radius:0px;
+    border-top-left-radius:0px;
+}.table_standard table{
+    border-collapse: collapse;
+        border-spacing: 0;
+    width:100%;
+    height:100%;
+    margin:0px;padding:0px;
+}.table_standard tr:last-child td:last-child {
+    -moz-border-radius-bottomright:0px;
+    -webkit-border-bottom-right-radius:0px;
+    border-bottom-right-radius:0px;
+}
+.table_standard table tr:first-child td:first-child {
+    -moz-border-radius-topleft:0px;
+    -webkit-border-top-left-radius:0px;
+    border-top-left-radius:0px;
+}
+.table_standard table tr:first-child td:last-child {
+    -moz-border-radius-topright:0px;
+    -webkit-border-top-right-radius:0px;
+    border-top-right-radius:0px;
+}.table_standard tr:last-child td:first-child{
+    -moz-border-radius-bottomleft:0px;
+    -webkit-border-bottom-left-radius:0px;
+    border-bottom-left-radius:0px;
+}.table_standard tr:hover td{
+    background-color:#ffffff;
+        
+
+}
+.table_standard td{
+    vertical-align:middle;
+    
+    background-color:#ffffff;
+
+    border:1px solid #ffffff;
+    border-width:0px 1px 1px 0px;
+    text-align:center;
+    padding:7px;
+    font-size:10px;
+    font-family:Arial;
+    font-weight:normal;
+    color:#000000;
+}.table_standard tr:last-child td{
+    border-width:0px 1px 0px 0px;
+}.table_standard tr td:last-child{
+    border-width:0px 0px 1px 0px;
+}.table_standard tr:last-child td:last-child{
+    border-width:0px 0px 0px 0px;
+}
+.table_standard tr:first-child td{
+        background:-o-linear-gradient(bottom, #ff7f00 5%, #bf5f00 100%);    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ff7f00), color-stop(1, #bf5f00) );
+    background:-moz-linear-gradient( center top, #ff7f00 5%, #bf5f00 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff7f00", endColorstr="#bf5f00");  background: -o-linear-gradient(top,#ff7f00,bf5f00);
+
+    background-color:#ff7f00;
+    border:0px solid #ffffff;
+    text-align:center;
+    border-width:0px 0px 1px 1px;
+    font-size:14px;
+    font-family:Arial;
+    font-weight:bold;
+    color:#ffffff;
+}
+.table_standard tr:first-child:hover td{
+    background:-o-linear-gradient(bottom, #ff7f00 5%, #bf5f00 100%);    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ff7f00), color-stop(1, #bf5f00) );
+    background:-moz-linear-gradient( center top, #ff7f00 5%, #bf5f00 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff7f00", endColorstr="#bf5f00");  background: -o-linear-gradient(top,#ff7f00,bf5f00);
+
+    background-color:#ff7f00;
+}
+.table_standard tr:first-child td:first-child{
+    border-width:0px 0px 1px 0px;
+}
+.table_standard tr:first-child td:last-child{
+    border-width:0px 0px 1px 1px;
+}
+.table_line{
+    vertical-align:middle;
+    
+    background-color:#ffffff;
+
+    border:1px solid #ffffff;
+    border-width:0px 1px 1px 0px;
+    text-align:center;
+    padding:7px;
+    font-size:10px;
+    font-family:Arial;
+    font-weight:normal;
+    color:#000000;
 }
 ]]> </field>
-            <field name="name">Account Statement Report</field>
+            <field name="name">Account Statement Report Header</field>
         </record>
         <record id="ir_header_img_companylogo0" model="ir.header_img">
             <field eval="&quot;&quot;&quot;jpg&quot;&quot;&quot;" name="type"/>
