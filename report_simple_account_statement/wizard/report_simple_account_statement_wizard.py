@@ -32,8 +32,11 @@ class report_simple_account_statement_wizard(orm.TransientModel):
 	_columns = {
 	'centro_costo_id': fields.many2one('account.move.line', string="Cost Center"),
 	'account_id': fields.many2one('account.account',string="Account"),
-	'partner_id': fields.many2one('res.partner',domain=[('supplier','=',True)], string="Supplier"),
+	'partner_id': fields.many2one('res.partner',domain=[('supplier','=',True)], string="Supplier",required=True),
 	'period_id': fields.many2one('account.period', string="Period",required=True),
+	'currency_id': fields.many2one('res.currency',domain=[('active','=',True)], string="Currency",required=True),
+	'mov_type': fields.selection([('in_invoice', 'Accounting Payable'),('out_invoice','Account Receivable')],'Type',required=True,help="Select movement type"),
+
 	}
 
 	def print_report(self,cr,uid,ids,context=None):
