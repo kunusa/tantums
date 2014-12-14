@@ -7,11 +7,10 @@
 			<field name="arch" type="xml">
 				<form string="_('Account Simple Statement ReportXXXX')" version="7.0">
 					<group>
-						<field name="account_id"/>
+						<field name="date_start"/>
+						<field name="date_finish"/>
 						<field name="partner_id"/>
-						<field name="period_id"/>
 						<field name="centro_costo_id"/>
-						<field name="currency_id"/>
 						<field name="mov_type"/>
 
 					</group>
