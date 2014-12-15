@@ -15,22 +15,46 @@
 				</div>
 			<h3 class="title">
 				${_('ACCOUNT SIMPLE STATEMENT REPORT') | entity}
-				<%
-				for (clave, valor) in data.items():
-						print clave, ": ", valor
-				%>
+				
 			</h3>
 			<h5>
 				<div align="center">
-					<p>${_('FROM :')}${formatLang(get_move_lines(data)[0].date,date=True) | entity }</p>
-					<p>${_('TO :')}${data['form']['date_finish']}</p>
+					<p>${_('FROM :')}${formatLang(data['form']['date_start'],date=True) | entity }${_('  TO :')}${formatLang(data['form']['date_finish'],date=True) | entity}</p>
 				</div>
-		%endif
+		
 			</h5>
 		</div>
 </div>
 
-<table width="100%">
+<table width="100%" style="font-size:10px; font-weight: bold;">
+					<tr width="100%">
+						<td colspan="1">${_('Name       :')}</td>
+						<td colspan="3">${get_move_lines(data)[0].partner_id.name}</td>	
+						<td colspan="4"></td>
+					</tr>
+					<tr width="100%">
+						<td colspan="1">${_('Address    :')}</td>
+						<td colspan="3">${get_move_lines(data)[0].partner_id.street}</td>
+						<td colspan="4"></td>
+					</tr>
+					<tr width="100%">
+						<td colspan="1"></td>
+						<td colspan="3">${get_move_lines(data)[0].partner_id.l10n_mx_street3}</td>
+						<td colspan="4"></td>
+					</tr>
+					<tr width="100%">
+						<td colspan="1"></td>
+						<td colspan="3">${get_move_lines(data)[0].partner_id.street2}</td>
+						<td colspan="4"></td>
+					</tr>
+					<tr width="100%">
+						<td colspan="1">${_('City       :') or ' '}</td>
+						<td colspan="2">${get_move_lines(data)[0].partner_id.city_id.name}</td>
+						<td colspan="1">${_('State       :')}</td>
+						<td colspan="2">${get_move_lines(data)[0].partner_id.state_id.name}	</td>
+						<td colspan="1">${_('Zip       :')}</td>
+						<td colspan="1">${get_move_lines(data)[0].partner_id.zip}</td>
+					</tr>
 					<tr>
 						<td width="12.5%" align='center'>
 							${_('Document Date') | entity}	
@@ -57,6 +81,7 @@
 							${_('Current Balance') | entity}
 						</td>
 					</tr>
+			%endif
 					<tr>
     					<td colspan="8" align="right">
     						<font size='1'>
@@ -92,14 +117,27 @@
 									${o.journal_id.code}
 								</font>
 							</td>
-							<td width="12.5%" align='center'>
-								<font size="1">
-									##${o.currency_id.name}
+							<%import datetime%>
+							<%now = datetime.datetime.now()%>
+							<td width="12.5%" align='left'>
+								<font size="0">
+						%if o.journal_id.currency:
+									${o.journal_id.currency.name}
+									${_('TC:')}${"{0:.2f}".format(1/get_tc(o.journal_id.currency.id,now.strftime('%Y-%m-%d')))}
+									<br>
+									${'REF:'}${formatLang(o.credit,monetary=True)}
+						%endif
+
 								</font>
 							</td>
 							<td width="12.5%" align='center'>
 								<font size="1">
+						%if o.journal_id.currency:
+									${formatLang(o.credit/get_tc(o.journal_id.currency.id,now.strftime('%Y-%m-%d')),monetary=True)}
+						%else:
 									${formatLang(o.credit,monetary=True)}
+						%endif
+						
 								</font>
 							</td>
 							<td width="12.5%" align='center'>
@@ -151,6 +189,7 @@
 					</tr>
 				%endif
 %endfor
+				<div style="font-size:10px; font-weight: bold;">
     				<tr>
 	    				<td  colspan="3" align="left">
 	    					<font size="1">
@@ -164,9 +203,12 @@
 						</td>
 						<td  colspan="2" align="right">
 							<font size="1">
-								${_('Balance')}${' : '}${formatLang(get_total_debit_credit(get_move_lines(data))['sum_tot_credit']- get_total_debit_credit(get_move_lines(data))['sum_tot_debit']) or '0.00' |entity}
+								${_('Balance')}${' : '}${formatLang((get_last_balance(data) + get_total_debit_credit(get_move_lines(data))['sum_tot_credit'])- get_total_debit_credit(get_move_lines(data))['sum_tot_debit'],monetary=True) or '0.00' |entity}
 							</font>
 						</td>
+					</tr>
+				</div>
+
 		</table>
 			
 <p style="page-break-before: always;"></p>
