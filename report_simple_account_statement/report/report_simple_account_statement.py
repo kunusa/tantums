@@ -27,8 +27,7 @@ class ReportStatus(report_sxw.rml_parse):
         for journal in journals_ids:
             common_domain.append(('journal_id','in',journals_ids))
         if form['form']['centro_costo_id']:
-            common_domain.append(('centro_costo_id','=',form['form']['centro_costo_id'][0]))
-        print common_domain
+            common_domain.append(('centro_costo_id','=',form['form']['centro_costo_id'][0]))    
         account_movements_ids=self.pool.get('account.move.line').search(self.cr,self.uid,common_domain,order="date")
         account_movements_obj=self.pool.get('account.move.line').browse(self.cr,self.uid,account_movements_ids)
         return account_movements_obj
