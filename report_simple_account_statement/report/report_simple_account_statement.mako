@@ -193,17 +193,30 @@
     				<tr>
 	    				<td  colspan="3" align="left">
 	    					<font size="1">
+	    			%if data['form']['mov_type'] == 'in_invoice':
 							<div width='12.5%'>${_('Charges')}${' : '}${formatLang(get_total_debit_credit(get_move_lines(data))['sum_tot_credit']) or '0.00' |entity}</div>
+					%else:
+							<div width='12.5%'>${_('Charges')}${' : '}${formatLang(get_total_debit_credit(get_move_lines(data))['sum_tot_debit']) or '0.00' |entity}
+					%endif
 							</font>
 						</td>
 						<td  colspan="3" align="right">
 							<font size="1">
+					%if data['form']['mov_type'] == 'in_invoice':
 								${_('Payments')}${' : '}${formatLang(get_total_debit_credit(get_move_lines(data))['sum_tot_debit']) or '0.00' |entity}
+					%else:
+								${_('Receipts')}${' : '}${formatLang(get_total_debit_credit(get_move_lines(data))['sum_tot_credit']) or '0.00' |entity}
+					%endif
 							</font>
 						</td>
 						<td  colspan="2" align="right">
 							<font size="1">
+					%if data['form']['mov_type'] == 'in_invoice':
 								${_('Balance')}${' : '}${formatLang((get_last_balance(data) + get_total_debit_credit(get_move_lines(data))['sum_tot_credit'])- get_total_debit_credit(get_move_lines(data))['sum_tot_debit'],monetary=True) or '0.00' |entity}
+					%else:
+								${_('Balance')}${' : '}${formatLang((get_last_balance(data) + get_total_debit_credit(get_move_lines(data))['sum_tot_debit'])- get_total_debit_credit(get_move_lines(data))['sum_tot_credit'],monetary=True) or '0.00' |entity}
+					%endif
+
 							</font>
 						</td>
 					</tr>

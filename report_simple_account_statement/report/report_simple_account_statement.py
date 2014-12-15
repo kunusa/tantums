@@ -18,10 +18,17 @@ class ReportStatus(report_sxw.rml_parse):
        
     def get_move_lines(self,form):
         common_domain =[('date','>=',form['form']['date_start']),('date','<=',form['form']['date_finish']),('product_id','=',False),('quantity','!=',False),('partner_id','=',form['form']['partner_id'][0]),('tax_id','=',False),('tax_id_secondary','=',False)]
-        journals = ['|',('type','=','bank'),('type','=','cash'),('type','=','purchase')]
-        journals_ids=self.pool.get('account.journal').search(self.cr,self.uid,journals)
+        journals_ap = ['|',('type','=','bank'),('type','=','cash'),('type','=','purchase'),('type','=','general'),('type','=','purchase_refund')]
+        journals_ar = ['|',('type','=','bank'),('type','=','cash'),('type','=','sale'),('type','=','general'),('type','=','sale_refund')]
+        if form['form']['mov_type'] == 'in_invoice':
+            journals_ids=self.pool.get('account.journal').search(self.cr,self.uid,journals_ap)
+        else:
+            journals_ids=self.pool.get('account.journal').search(self.cr,self.uid,journals_ar)
         for journal in journals_ids:
             common_domain.append(('journal_id','in',journals_ids))
+        if form['form']['centro_costo_id']:
+            common_domain.append(('centro_costo_id','=',form['form']['centro_costo_id'][0]))
+        print common_domain
         account_movements_ids=self.pool.get('account.move.line').search(self.cr,self.uid,common_domain,order="date")
         account_movements_obj=self.pool.get('account.move.line').browse(self.cr,self.uid,account_movements_ids)
         return account_movements_obj
@@ -58,10 +65,16 @@ class ReportStatus(report_sxw.rml_parse):
         credit_sum_tot = 0.00
         debit_sum_tot  = 0.00
         common_domain =[('date','<',form['form']['date_start']),('product_id','=',False),('quantity','!=',False),('partner_id','=',form['form']['partner_id'][0]),('tax_id','=',False),('tax_id_secondary','=',False)]
-        journals = ['|',('type','=','bank'),('type','=','cash'),('type','=','purchase')]
-        journals_ids=self.pool.get('account.journal').search(self.cr,self.uid,journals)
+        journals_ap = ['|',('type','=','bank'),('type','=','cash'),('type','=','purchase'),('type','=','general'),('type','=','purchase_refund')]
+        journals_ar = ['|',('type','=','bank'),('type','=','cash'),('type','=','sale'),('type','=','general'),('type','=','sale_refund')]
+        if form['form']['mov_type'] == 'in_invoice':
+            journals_ids=self.pool.get('account.journal').search(self.cr,self.uid,journals_ap)
+        else:
+            journals_ids=self.pool.get('account.journal').search(self.cr,self.uid,journals_ar)
         for journal in journals_ids:
             common_domain.append(('journal_id','in',journals_ids))
+        if form['form']['centro_costo_id']:
+            common_domain.append(('centro_costo_id','=',form['form']['centro_costo_id'][0]))
         account_movements_ids=self.pool.get('account.move.line').search(self.cr,self.uid,common_domain,order="date")
         account_movements_obj=self.pool.get('account.move.line').browse(self.cr,self.uid,account_movements_ids)
         for mov in account_movements_obj:

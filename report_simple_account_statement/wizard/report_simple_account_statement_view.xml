@@ -28,6 +28,6 @@
 			<field name="view_mode">form</field>
 			<field name="target">new</field>
 		</record>
-		<menuitem action="action_account_statement_report" id="submenu_account_statement_report" name="Account Statement Report" parent="account.final_accounting_reports"/>
+		<menuitem action="action_account_statement_report" id="submenu_account_statement_report" name="Account Statement Report" parent="account.final_accounting_reports" string="Account Statement Report"/>
 	</data>
 </openerp>
