@@ -119,8 +119,8 @@
 							</td>
 							<%import datetime%>
 							<%now = datetime.datetime.now()%>
-							<td width="12.5%" align='left'>
-								<font size="0">
+							<td width="12.5%" align='left' style="font-size:10px;">
+								<font size="1">
 						%if o.journal_id.currency:
 									${o.journal_id.currency.name}
 									${_('TC:')}${"{0:.2f}".format(1/get_tc(o.journal_id.currency.id,now.strftime('%Y-%m-%d')))}
