@@ -27,7 +27,7 @@ import pdb
 from openerp.tools.translate import _
 	
 
-class report_simple_account_statement_wizard(orm.TransientModel):
+class report_simple_account_statement_wizard(osv.osv_memory):
 	_name = 'report.simple.account.statement.wizard'
 
 	
@@ -42,6 +42,7 @@ class report_simple_account_statement_wizard(orm.TransientModel):
 	_defaults = {
 		'mov_type': 'in_invoice',
 		'date_start':  lambda *a: datetime.date.today().strftime('%Y-%m-%d'),
+		'date_finish':  lambda *a: datetime.date.today().strftime('%Y-%m-%d'),
 	}
 
 	def print_report(self,cr,uid,ids,context=None):
