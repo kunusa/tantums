@@ -35,7 +35,7 @@ Allows get a Report from account movements
     'sequence': 4,
     'website' : 'http://www.tantums.com',
     'images' : [],
-    'depends' : ['base','account','report_webkit'],
+    'depends' : ['base','account','petreo','report_webkit'],
     'demo' : [],
     'data' :       ['data.xml',
                     'wizard/report_simple_account_statement_view.xml',

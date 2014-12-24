@@ -17,17 +17,22 @@ class ReportStatus(report_sxw.rml_parse):
         })
        
     def get_move_lines(self,form):
-        common_domain =[('date','>=',form['form']['date_start']),('date','<=',form['form']['date_finish']),('product_id','=',False),('quantity','!=',False),('partner_id','=',form['form']['partner_id'][0]),('tax_id','=',False),('tax_id_secondary','=',False)]
+        common_domain =[('date','>=',form['form']['date_start']),('date','<=',form['form']['date_finish']),
+        ('partner_id','=',form['form']['partner_id'][0])]
         journals_ap = ['|',('type','=','bank'),('type','=','cash'),('type','=','purchase'),('type','=','general'),('type','=','purchase_refund')]
         journals_ar = ['|',('type','=','bank'),('type','=','cash'),('type','=','sale'),('type','=','general'),('type','=','sale_refund')]
+        account_ap=self.get_purchase_account(form['form']['partner_id'][0])
+        account_ar=self.get_sale_account(form['form']['partner_id'][0])
         if form['form']['mov_type'] == 'in_invoice':
             journals_ids=self.pool.get('account.journal').search(self.cr,self.uid,journals_ap)
+            common_domain.append(('account_id','=',account_ap.id))
         else:
             journals_ids=self.pool.get('account.journal').search(self.cr,self.uid,journals_ar)
+            common_domain.append(('account_id','=',account_ar.id))
         for journal in journals_ids:
             common_domain.append(('journal_id','in',journals_ids))
         if form['form']['centro_costo_id']:
-            common_domain.append(('centro_costo_id','=',form['form']['centro_costo_id'][0]))    
+            common_domain.append(('centro_costo_id','=',form['form']['centro_costo_id'][0]))  
         account_movements_ids=self.pool.get('account.move.line').search(self.cr,self.uid,common_domain,order="date")
         account_movements_obj=self.pool.get('account.move.line').browse(self.cr,self.uid,account_movements_ids)
         return account_movements_obj
@@ -38,7 +43,14 @@ class ReportStatus(report_sxw.rml_parse):
             return self.pool.get('res.currency.rate').browse(self.cr,self.uid,rate)[0].rate
         else:
             return "No TC"
-                
+    
+    def get_purchase_account(self,partner):
+        account_purchase=self.pool.get('res.partner').browse(self.cr,self.uid,partner).property_account_payable 
+        return account_purchase 
+
+    def get_sale_account(self,partner):
+        account_sale=self.pool.get('res.partner').browse(self.cr,self.uid,partner).property_account_receivable 
+        return account_sale     
        
     def get_total_debit_credit(self,line_ids):
         now = datetime.now()
@@ -63,13 +75,18 @@ class ReportStatus(report_sxw.rml_parse):
         acummulate_balance = 0.00
         credit_sum_tot = 0.00
         debit_sum_tot  = 0.00
-        common_domain =[('date','<',form['form']['date_start']),('product_id','=',False),('quantity','!=',False),('partner_id','=',form['form']['partner_id'][0]),('tax_id','=',False),('tax_id_secondary','=',False)]
+        common_domain =[('date','<',form['form']['date_start']),('product_id','=',False),
+        ('partner_id','=',form['form']['partner_id'][0])]
         journals_ap = ['|',('type','=','bank'),('type','=','cash'),('type','=','purchase'),('type','=','general'),('type','=','purchase_refund')]
         journals_ar = ['|',('type','=','bank'),('type','=','cash'),('type','=','sale'),('type','=','general'),('type','=','sale_refund')]
+        account_ap=self.get_purchase_account(form['form']['partner_id'][0])
+        account_ar=self.get_sale_account(form['form']['partner_id'][0])
         if form['form']['mov_type'] == 'in_invoice':
             journals_ids=self.pool.get('account.journal').search(self.cr,self.uid,journals_ap)
+            common_domain.append(('account_id','=',account_ap.id))
         else:
             journals_ids=self.pool.get('account.journal').search(self.cr,self.uid,journals_ar)
+            common_domain.append(('account_id','=',account_ar.id))
         for journal in journals_ids:
             common_domain.append(('journal_id','in',journals_ids))
         if form['form']['centro_costo_id']:
@@ -79,15 +96,18 @@ class ReportStatus(report_sxw.rml_parse):
         for mov in account_movements_obj:
             if mov.journal_id.currency:
                 if mov.credit:
-                    credit_sum_tot += mov.credit/self.get_tc(mov.currency_id.id,now.strftime('%Y-%m-%d'))
+                    credit_sum_tot += mov.credit/self.get_tc(mov.currency_id.id,mov.date)
                 if mov.debit:
-                    debit_sum_tot  += mov.debit/self.get_tc(mov.currency_id.id,now.strftime('%Y-%m-%d'))
+                    debit_sum_tot  += mov.debit/self.get_tc(mov.currency_id.id,move.date)
             else:
                 if mov.credit:
                     credit_sum_tot += mov.credit
                 if mov.debit:
                     debit_sum_tot  += mov.debit
-        acummulate_balance = credit_sum_tot - debit_sum_tot
+        if form['form']['mov_type'] == 'in_invoice':
+            acummulate_balance = credit_sum_tot - debit_sum_tot
+        else:
+            acummulate_balance = debit_sum_tot  - credit_sum_tot
         return acummulate_balance
         
         

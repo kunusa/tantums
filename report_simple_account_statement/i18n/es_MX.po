@@ -6,10 +6,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-15 04:59+0000\n"
-"PO-Revision-Date: 2014-12-14 23:07-0600\n"
+"POT-Creation-Date: 2014-12-24 04:01+0000\n"
+"PO-Revision-Date: 2014-12-23 22:04-0600\n"
 "Last-Translator: Said Kuri <skuri@tantums.com>\n"
-"Language-Team: Tantums <contacto@tantums.com>\n"
+"Language-Team: Tantums <skuri@tantums.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -54,7 +54,7 @@ msgstr "Tipo"
 #. module: report_simple_account_statement
 #: selection:report.simple.account.statement.wizard,mov_type:0
 msgid "Account Receivable"
-msgstr "Cuentas por Pagar"
+msgstr "Cuentas por Cobrar"
 
 #. module: report_simple_account_statement
 #: report:addons/report_simple_account_statement/report/report_simple_account_statement.mako:36
@@ -87,7 +87,7 @@ msgid "FROM :"
 msgstr "DE :"
 
 #. module: report_simple_account_statement
-#: report:addons/report_simple_account_statement/report/report_simple_account_statement.mako:208
+#: report:addons/report_simple_account_statement/report/report_simple_account_statement.mako:203
 msgid "Receipts"
 msgstr "Recibos"
 
@@ -107,8 +107,8 @@ msgid "Due Date"
 msgstr "Vencimiento"
 
 #. module: report_simple_account_statement
-#: report:addons/report_simple_account_statement/report/report_simple_account_statement.mako:197
-#: report:addons/report_simple_account_statement/report/report_simple_account_statement.mako:199
+#: report:addons/report_simple_account_statement/report/report_simple_account_statement.mako:192
+#: report:addons/report_simple_account_statement/report/report_simple_account_statement.mako:194
 msgid "Charges"
 msgstr "Cargos"
 
@@ -123,7 +123,7 @@ msgid "Credit"
 msgstr "Credito"
 
 #. module: report_simple_account_statement
-#: report:addons/report_simple_account_statement/report/report_simple_account_statement.mako:206
+#: report:addons/report_simple_account_statement/report/report_simple_account_statement.mako:201
 msgid "Payments"
 msgstr "Pagos"
 
@@ -138,8 +138,8 @@ msgid "Account Statement Report"
 msgstr "Reporte de Estado de Cuenta"
 
 #. module: report_simple_account_statement
-#: report:addons/report_simple_account_statement/report/report_simple_account_statement.mako:215
-#: report:addons/report_simple_account_statement/report/report_simple_account_statement.mako:217
+#: report:addons/report_simple_account_statement/report/report_simple_account_statement.mako:210
+#: report:addons/report_simple_account_statement/report/report_simple_account_statement.mako:212
 msgid "Balance"
 msgstr "Saldo"
 

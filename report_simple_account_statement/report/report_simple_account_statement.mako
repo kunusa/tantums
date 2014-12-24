@@ -72,10 +72,10 @@
 							${_('Currency') | entity}
 						</td> 
 						<td width="12.5%" align='center'>
-							${_('Credit') | entity}
+							${_('Debit') | entity}
 						</td>
 						<td width="12.5%" align='center'>
-							${_('Debit') | entity}
+							${_('Credit') | entity}
 						</td>
 						<td width="12.5%" align='center'>
 							${_('Current Balance') | entity}
@@ -102,7 +102,7 @@
 							</td>
 							<td width="12.5%" align='center' style="font-zise:small;">
 								<font size="1">
-									${o.name}
+									${o.ref}
 								</font>
 							</td>
 							<td width="12.5%" align='center'>
@@ -121,27 +121,23 @@
 							<%now = datetime.datetime.now()%>
 							<td width="12.5%" align='left' style="font-size:10px;">
 								<font size="1">
-						%if o.journal_id.currency:
-									${o.journal_id.currency.name}
-									${_('TC:')}${"{0:.2f}".format(1/get_tc(o.journal_id.currency.id,now.strftime('%Y-%m-%d')))}
+						%if o.currency_id:
+									${o.currency_id.name}
+									${_('TC:')}${"{0:.2f}".format(1/get_tc(o.currency_id.id,o.date))}
 									<br>
-									${'REF:'}${formatLang(o.credit,monetary=True)}
+									${'REF:'}${formatLang(o.amount_currency,monetary=True)}
 						%endif
 
 								</font>
 							</td>
 							<td width="12.5%" align='center'>
 								<font size="1">
-						%if o.journal_id.currency:
-									${formatLang(o.credit/get_tc(o.journal_id.currency.id,now.strftime('%Y-%m-%d')),monetary=True)}
-						%else:
-									${formatLang(o.credit,monetary=True)}
-						%endif
-						
+									
 								</font>
 							</td>
 							<td width="12.5%" align='center'>
 								<font size="1">
+								${formatLang(o.credit,monetary=True)}
 								</font>
 
 							</td>
@@ -175,12 +171,12 @@
 							##${o.currency_id.name}
 						</td>
 						<td width="12.5%" align='center'>
-							
-						</td>
-						<td width="12.5%" align='center'>
 							<font size="1">
 								${formatLang(o.debit,monetary=True)}
 							</font>
+						</td>
+						<td width="12.5%" align='center'>
+							
 						</td>
 						</td>
 						<td width="12.5%" align='center'>

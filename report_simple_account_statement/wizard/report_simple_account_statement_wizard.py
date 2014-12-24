@@ -32,13 +32,13 @@ class report_simple_account_statement_wizard(osv.osv_memory):
 
 	
 	_columns = {
-	'centro_costo_id': fields.many2one('account.cost.center', string="Cost Center"),
-	'date_start': fields.date('Start date',required=True),
-	'date_finish': fields.date('Date finish', required=True),
-	'partner_id': fields.many2one('res.partner',domain=['|',('supplier','=',True),('customer','=',True)], string="Partner",required=True),
-	'mov_type': fields.selection([('in_invoice', 'Accounting Payable'),('out_invoice','Account Receivable')],'Type',required=True,help="Select movement type"),
-
+		'centro_costo_id': fields.many2one('account.cost.center', string="Cost Center"),
+		'date_start': fields.date('Start date',required=True),
+		'date_finish': fields.date('Date finish', required=True),
+		'partner_id': fields.many2one('res.partner',domain=['|',('supplier','=',True),('customer','=',True)], string="Partner",required=True),
+		'mov_type': fields.selection([('in_invoice', 'Accounting Payable'),('out_invoice','Account Receivable')],'Type',required=True,help="Select movement type"),
 	}
+	
 	_defaults = {
 		'mov_type': 'in_invoice',
 		'date_start':  lambda *a: datetime.date.today().strftime('%Y-%m-%d'),
