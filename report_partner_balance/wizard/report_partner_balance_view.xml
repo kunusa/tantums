@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="partner_balance_report" model="ir.ui.view">
+			<field name="name">partner.balance.report.form</field>
+			<field name="model">report.partner.balance.wizard</field>
+			<field name="arch" type="xml">
+				<form string="_('Partner Balance Report')" version="7.0">
+					<group>
+						<field name="date_start"/>
+						<field name="date_finish"/>
+s						<field name="centro_costo_id"/>
+						<field name="mov_type"/>
+
+					</group>
+					<footer>
+						<button class="oe_highlight"  name="print_report" string="_Print" type="object"/>
+						<button  special="cancel" string="_Cancel"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+		<record id="action_partner_balance_report" model="ir.actions.act_window">
+			<field name="name">Partner Balance Report</field>
+			<field name="res_model">report.partner.balance.wizard</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+		<menuitem action="action_partner_balance_report" id="submenu_partner_balance_report" name="Partner Balance Report" parent="account.final_accounting_reports" string="Partner Balance Report"/>
+	</data>
+</openerp>
