@@ -41,33 +41,35 @@ class mrp_product_produce(osv.Model):
 			period_ids=self.pool.get('account.period').search(cr,uid,[('date_start','=',today),('special','=',False)])
 			account_move = self.pool.get('account.move')
 			account_move_line=self.pool.get('account.move.line')
-			data_mp = {'name': '/','date': datetime.date.today().strftime('%Y-%m-%d'),'journal_id': 9,'period_id': int(period_ids[0]),'ref': mo_order.name + '-CONSUMO',}
+			user = self.pool.get('res.users').browse(cr, uid, uid, context)
+			data_mp = {'name': '/','date': datetime.date.today().strftime('%Y-%m-%d'),'journal_id': user.company_id.mrp_journal_account.id,'period_id': int(period_ids[0]),'ref': mo_order.name + '-CONSUMO',}
 			new_mp = account_move.create(cr,uid,data_mp)
-			data = {'name': '/','date': datetime.date.today().strftime('%Y-%m-%d'),'journal_id': 9,'period_id': int(period_ids[0]),'ref': mo_order.name + '-PT',}
+			data = {'name': '/','date': datetime.date.today().strftime('%Y-%m-%d'),'journal_id': user.company_id.mrp_journal_account.id,'period_id': int(period_ids[0]),'ref': mo_order.name + '-PT',}
 			new_pt = account_move.create(cr,uid,data)
 			sum_pt=0.00
 			sum_mp=0.00
+			print user.company_id.mrp_journal_account.id
 			#Print Account Move Materials
 			for mp in  mo_order.move_lines2:
-					data_line = { 'name':mo_order.name + '-CONSUMO','journal_id':9,'ref':mo_order.name + '-CONSUMO',
+					data_line = { 'name':mo_order.name + '-CONSUMO','journal_id':user.company_id.mrp_journal_account.id,'ref':mo_order.name + '-CONSUMO',
 					'credit':mp.product_qty * mp.product_id.standard_price,'debit':0.0,'period_id':int(period_ids[0]),'move_id':new_mp,
 					'account_id': mp.product_id.categ_id.property_account_expense_categ.id,'centro_costo_id':centro_costo_id}
 					new_line_mp=account_move_line.create(cr,uid,data_line)
 					sum_mp += mp.product_qty * mp.product_id.standard_price
-			data_line = { 'name':mo_order.name + '-CONSUMO','journal_id':9,'ref':mo_order.name + '-CONSUMO',
+			data_line = { 'name':mo_order.name + '-CONSUMO','journal_id':user.company_id.mrp_journal_account.id,'ref':mo_order.name + '-CONSUMO',
 					'credit':0.0,'debit':sum_mp,'period_id':int(period_ids[0]),'move_id':new_mp,
-					'account_id': 12621,'centro_costo_id':centro_costo_id}
+					'account_id': user.company_id.material_process_account_id.id,'centro_costo_id':centro_costo_id}
 			new_line_mp=account_move_line.create(cr,uid,data_line)
 			print mo_order.move_created_ids2
 			for pt in  mo_order.move_created_ids2:
-				data_line = { 'name':mo_order.name + '-PT','journal_id':9,'ref':mo_order.name + '-PT',
+				data_line = { 'name':mo_order.name + '-PT','journal_id':user.company_id.mrp_journal_account.id,'ref':mo_order.name + '-PT',
 				'credit':0.0,'debit':pt.product_qty * pt.product_id.standard_price,'period_id':int(period_ids[0]),'move_id':new_pt,
 				'account_id': pt.product_id.categ_id.property_account_expense_categ.id,'centro_costo_id':centro_costo_id}
 				new_line_pt=account_move_line.create(cr,uid,data_line)
 				sum_pt += pt.product_qty * pt.product_id.standard_price
-			data_line = { 'name':mo_order.name + '-PT','journal_id':9,'ref':mo_order.name + '-PT',
+			data_line = { 'name':mo_order.name + '-PT','journal_id':user.company_id.mrp_journal_account.id,'ref':mo_order.name + '-PT',
 				'credit':sum_pt,'debit':0.0,'period_id':int(period_ids[0]),'move_id':new_pt,
-				'account_id': 12621,'centro_costo_id':centro_costo_id}
+				'account_id': user.company_id.material_process_account_id.id,'centro_costo_id':centro_costo_id}
 			new_line=account_move_line.create(cr,uid,data_line)
 		except Exception, e:
 			print 'ERROR MRP do_produce' + str(e)

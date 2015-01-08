@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <record model="ir.ui.view" id="view_mrp_config_inherit">
+    <field name="name">mrp.config.settings.form.inherit</field>
+    <field name="model">mrp.config.settings</field>
+    <field name="inherit_id" ref="mrp.view_mrp_config"/>
+    <field name="arch" type="xml">
+            <xpath expr="/form/group/div/div/label[@for='group_mrp_properties']"  position="after">
+                        <separator string="Account"/>
+                        <div>
+                        	<label for="module_mrp_account"/>
+                        	<field name="module_mrp_account" class="oe_inline"/>
+                        </div>
+                        <div>
+                        	<label for="mrp_journal_account"/>
+                        	<field name="mrp_journal_account" class="oe_inline"/>
+                        </div>
+            </xpath>
+    </field>
+</record>
+</data>
+</openerp>
